@@ -1,0 +1,27 @@
+
+services:
+  hub:
+    image: postgres:latest
+    container_name: hub
+    ports:
+      - "5332:5432"
+    environment:
+      POSTGRES_USER: hubcon
+      POSTGRES_PASSWORD: hub123
+    volumes:
+      - hub_data:/var/lib/postgresql/data
+
+  erp:
+    image: postgres:latest
+    container_name: erp
+    ports:
+      - "5442:5432"
+    environment:
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp123
+    volumes:
+      - erp_data:/var/lib/postgresql/data
+
+volumes:
+  hub_data:
+  erp_data:
