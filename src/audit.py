@@ -1,26 +1,10 @@
-import psycopg2 as pg 
+import psycopg2 as pg
 import csv
 from datetime import datetime 
+import connections as c
 
-#Conexão com banco ERP, dados de origem
-conexaoErp = pg.connect(
-    host="localhost",
-    port=5442,
-    user="erp",
-    password="erp123",
-    database="erp"
-)
-#Conexão com banco HUB, dados de destino
-conexaoHub = pg.connect(
-    host="localhost",
-    port=5332,
-    user="hubcon",
-    password="hub123",
-    database="postgres"
-)
-
-connErp = conexaoErp.cursor()
-connHub = conexaoHub.cursor()
+connErp = c.conexaoErp.cursor()
+connHub = c.conexaoHub.cursor()
 
 connErp.execute("""SELECT 
                    produto,
@@ -79,7 +63,7 @@ for produto, empresa, qnt_erp in estoque_Erp:
             'status': 'produto ausente no HUB'
         })
 
-conexaoHub.commit()
+c.conexaoHub.commit()
 
 print(f"\n AUDITORIA FINALIZADA, {len(divergentes)} PRODUTOS CORRIGIDOS E {len(erros)} COM ERRO")
 
